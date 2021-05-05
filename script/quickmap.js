@@ -35,11 +35,13 @@ if(urlParams.has('gjson')) {
     map.fitBounds(ftrGroup.getBounds().pad(0.2));
 }
 
+// add leaflet-geoman controls
 map.pm.addControls({  
     position: 'topleft',  
-    drawCircle: false,  
+    drawCircleMarker: false,  
 }); 
 
+// add custom control to generate and copy encoded map url
 map.pm.Toolbar.createCustomControl({   
     name: 'Create URL',  
     block: 'custom', 
@@ -63,4 +65,11 @@ map.pm.Toolbar.createCustomControl({
         document.execCommand('copy');
         document.body.removeChild(el);
     }
+  }); 
+
+  map.pm.Toolbar.createCustomControl({   
+    name: 'Change Basemap',  
+    block: 'custom', 
+    className: 'leaflet-pm-icon-basemap',
+    title: 'Change basemap'
   }); 
