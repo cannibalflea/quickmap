@@ -35,6 +35,14 @@ if(urlParams.has('gjson')) {
     map.fitBounds(ftrGroup.getBounds().pad(0.2));
 }
 
+// add control to toggle toolbar buttons
+const settingButton = L.easyButton('fa-cog', function(btn, map){
+    map.pm.toggleControls();
+}).addTo(map);
+settingButton.style.padding = '0px';
+settingButton.style.width = "26px";
+settingButton.style.height = "26px";
+
 // add leaflet-geoman controls
 map.pm.addControls({  
     position: 'topleft',  
