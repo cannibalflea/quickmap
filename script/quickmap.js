@@ -14,7 +14,7 @@ const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 
 // get the base URL to use for future reconstruction
-const baseURL = window.location.pathname;
+const baseURL = window.location.protocol + '//' + window.location.host + window.location.pathname;
 
 // check to see if geojson parameter was provided
 if(urlParams.has('gjson')) {
