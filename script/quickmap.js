@@ -1,13 +1,15 @@
+// mapbox access token
+//const mboxToken = 'pk.eyJ1IjoiY2FubmliYWxmbGVhIiwiYSI6ImNrb2kxdTJ4YTBpczgyd3E0NTZ6dWFlNGUifQ.9bZYJMGVe5RAunckJmTeQg';
+const mboxToken = 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+
 // create map and set starting point for the map (Vancouver)
-var map = L.map('maparea').setView([49.2566742, -123.1740253], 13);
-L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    maxZoom: 18,
-    id: 'mapbox/streets-v11',
-    tileSize: 512,
-    zoomOffset: -1,
-    accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
-}).addTo(map)
+var map = L.map('maparea', {
+    center: [49.2566742, -123.1740253],
+    zoom: 13,
+    zoomControl: false
+
+});
+
 
 // get the url parameters
 const queryString = window.location.search;
@@ -16,10 +18,48 @@ const urlParams = new URLSearchParams(queryString);
 // get the base URL to use for future reconstruction
 const baseURL = window.location.protocol + '//' + window.location.host + window.location.pathname;
 
-// check to see if geojson parameter was provided
-if(urlParams.has('gjson')) {
+// check to see if basemap parameter (bm) was provided
+var basemapLayer;
+var basemapNum;
+if(urlParams.has('bm')) {
+    setBasemap(parseInt(urlParams.get('bm')));
+} else {
+    setBasemap(1);
+}
+
+function setBasemap(basemapID) {
+    if(basemapLayer){
+        map.removeLayer(basemapLayer);
+    }
+
+    switch(basemapID){
+        case 1:
+            var mapboxID = 'mapbox/streets-v11';
+            basemapNum = 1;
+            break;
+        case 2:
+            var mapboxID = 'mapbox/satellite-v9';
+            basemapNum = 2;
+            break;
+        default:
+            var mapboxID = 'mapbox/streets-v11';
+            basemapNum = 1;
+    }
+
+    basemapLayer = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: mapboxID,
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: mboxToken
+    }).addTo(map)
+}
+
+// check to see if geojson parameter (gj) was provided 
+if(urlParams.has('gj')) {
     // decompress the json object
-    var objGeoJson = JSON.parse(JSONUncrush(decodeURIComponent(urlParams.get('gjson'))));
+    var objGeoJson = JSON.parse(JSONUncrush(decodeURIComponent(urlParams.get('gj'))));
     console.log(objGeoJson);
 
     // load the geojson data onto the map
@@ -36,12 +76,10 @@ if(urlParams.has('gjson')) {
 }
 
 // add control to toggle toolbar buttons
-const settingButton = L.easyButton('fa-cog', function(btn, map){
+L.easyButton('fa-cog', function(btn, map){
     map.pm.toggleControls();
 }).addTo(map);
-settingButton.style.padding = '0px';
-settingButton.style.width = "26px";
-settingButton.style.height = "26px";
+
 
 // add leaflet-geoman controls
 map.pm.addControls({  
@@ -64,7 +102,7 @@ map.pm.Toolbar.createCustomControl({
         
         // copy the encoded url into the clipboard
         const el = document.createElement('textarea');
-        el.value = baseURL + "?gjson=" + encodedGJSON;
+        el.value = baseURL + "?bm=" + basemapNum + "&gj=" + encodedGJSON;
         el.setAttribute('readonly', '');
         el.style.position = 'absolute';
         el.style.left = '-9999px';
@@ -73,11 +111,39 @@ map.pm.Toolbar.createCustomControl({
         document.execCommand('copy');
         document.body.removeChild(el);
     }
-  }); 
+}); 
 
-  map.pm.Toolbar.createCustomControl({   
+// add custom control to choose basemap
+const bmapActions = [
+    { 
+        text: '<i class="fas fa-map-marked-alt"></i>',
+        onClick: () => { setBasemap(1) }
+    }, 
+    {
+        text: '<i class="fas fa-satellite"></i>',
+        onClick: () => { setBasemap(2) }
+    }
+];
+map.pm.Toolbar.createCustomControl({   
     name: 'Change Basemap',  
     block: 'custom', 
     className: 'leaflet-pm-icon-basemap',
-    title: 'Change basemap'
-  }); 
+    title: 'Change basemap',
+    actions: bmapActions
+}); 
+
+// add custom control to add properties to the features
+const propActions = ['cancel'];
+map.pm.Toolbar.createCustomControl({   
+    name: 'Add property',  
+    block: 'custom', 
+    className: 'leaflet-pm-icon-prop',
+    title: 'Add property',
+    actions: propActions
+});
+
+// hide the map controls at startup
+map.pm.toggleControls();
+if(urlParams.has('gj')) {
+    map.pm.toggleControls();
+}
