@@ -160,12 +160,12 @@ function createPopupContent(layer, type){
     switch(type){
         case 'edit':
             var fieldIndex = 0;
-            var content = '<div class="popup-title">FEATURE DATA  <i class="fas fa-save popup-title-button" onClick="saveData('+ layer._leaflet_id +')"></i></div><div class="popup-data-table">';
+            var content = '<div class="popup-title">FEATURE DATA  <i class="fas fa-save popup-title-button" onClick="saveData('+ layer._leaflet_id +')"></i></div><table class="popup-data-table">';
             props.data.forEach(element => {
-                content += '<div class="popup-data-row" id="popup_data_row_'+ fieldIndex +'"><div class="popup-data-cell"><input type="text" id="data_name_' + fieldIndex + '" value="' + element[0] + '" onchange="updateData('+ fieldIndex +', '+ layer._leaflet_id +')"></div><div class="popup-data-cell" style="padding-left: 10px;"><input type="text" id="data_value_' + fieldIndex + '" value="' + element[1] + '" onchange="updateData('+ fieldIndex +', '+ layer._leaflet_id +')"></div><div class="popup-data-cell" style="width: 30px; padding-left: 10px;"><i class="fas fa-minus-square popup-row-button" style="color: red;" onClick="removeData('+ fieldIndex +', '+ layer._leaflet_id +')"></i></div></div>';
+                content += '<tr class="popup-data-row" id="popup_data_row_'+ fieldIndex +'"><td class="popup-data-cell"><input type="text" id="data_name_' + fieldIndex + '" value="' + element[0] + '" onchange="updateData('+ fieldIndex +', '+ layer._leaflet_id +')"></td><td class="popup-data-cell"><input type="text" id="data_value_' + fieldIndex + '" value="' + element[1] + '" onchange="updateData('+ fieldIndex +', '+ layer._leaflet_id +')"></td><td class="popup-data-cell"><i class="fas fa-minus-square popup-row-button" style="color: red;" onClick="removeData('+ fieldIndex +', '+ layer._leaflet_id +')"></i></td></tr>';
                 fieldIndex++;
             });
-            content += '<div class="popup-data-row" id="popup_data_add"><div class="popup-data-cell"><input type="text" id="data_add_name"></div><div class="popup-data-cell" style="padding-left: 10px;"><input type="text" id="data_add_value"></div><div class="popup-data-cell" style="width: 30px; padding-left: 10px;"><i class="fas fa-plus-square popup-row-button" style="color: green;" onClick="addData('+ layer._leaflet_id +')"></i></div></div></div>';
+            content += '<tr class="popup-data-row" id="popup_data_add"><td class="popup-data-cell"><input type="text" id="data_add_name"></td><td class="popup-data-cell"><input type="text" id="data_add_value"></td><td class="popup-data-cell"><i class="fas fa-plus-square popup-row-button" style="color: green;" onClick="addData('+ layer._leaflet_id +')"></i></td></tr></table>';
             break;
         case 'view':
             var content = '<div class="popup-title">FEATURE DATA <i class="fas fa-edit popup-title-button" onClick="editData('+ layer._leaflet_id +')"></i></div><div class="popup-data-table">';

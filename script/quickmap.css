@@ -37,17 +37,18 @@
 }
 
 .popup-data-row{
-    display:table-row;
     vertical-align:middle;
     height: 30px;
 }
 
 .popup-data-cell{
-    display: table-cell;
 }
 
 .popup-data-table{
-    display: table;
+    width: 100%;
+}
+
+input {
     width: 100%;
 }
 
