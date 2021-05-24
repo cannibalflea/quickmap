@@ -1,6 +1,22 @@
 // mapbox access token
 const mboxToken = 'pk.eyJ1IjoiY2FubmliYWxmbGVhIiwiYSI6ImNrb2kxdTJ4YTBpczgyd3E0NTZ6dWFlNGUifQ.9bZYJMGVe5RAunckJmTeQg';
 
+// dictionary used to compact geoJSON output for URL encoding
+const geoJSONDict = [
+    ['"geometry":'                  , '_g'],
+    ['"coordinates":'               , '_c'],
+    ['"title":'                     , '_n'],
+    ['"properties"'                 , '_r'],
+    ['"tooltip":'                   , '_i'],
+    ['"features":'                  , '_s'],
+    ['"permanentTooltip":'          , '_m'],
+    ['"type":"FeatureCollection"'   , '_e'],
+    ['"type":"Feature"'             , '_f'],
+    ['"type":"Polygon"'             , '_o'],
+    ['"type":"LineString"'          , '_l'],
+    ['"type":"Point"'               , '_p']
+];
+
 // create map and set starting point for the map (Vancouver)
 var map = L.map('maparea', {
     center: [49.2566742, -123.1740253],
@@ -36,13 +52,56 @@ if(urlParams.has('bm')) {
     setBasemap(1);
 }
 
-// check to see if geojson parameter (gj) was provided 
+// check to see if geoJSON parameter (gj) was provided 
 if(urlParams.has('gj')) {
-    // decompress the json object
-    var objGeoJson = JSON.parse(JSONUncrush(decodeURIComponent(urlParams.get('gj'))));
+    // decompress the JSON object
+    var objGeoJSON = JSON.parse(expandGeoJSON(JSONUncrush(decodeURIComponent(urlParams.get('gj')))));
 
-    // load the geojson data onto the map
-    var ftrGroup = L.geoJSON(objGeoJson, {
+    // load the geoJSON data onto the map
+    importGeoJSON(objGeoJSON);
+}
+
+// add control to toggle toolbar buttons
+L.easyButton('fa-cog', function(btn, map){
+    map.pm.toggleControls();
+}).addTo(map);
+
+// add leaflet-geoman controls
+map.pm.addControls({  
+    position: 'topleft',  
+    drawCircleMarker: false,  
+});
+
+// event listener for after layers are created
+map.on('pm:create', e => {  
+    var layer = e.layer;
+
+    // setup geoJSON feature class
+    var feature = layer.feature = layer.feature || {};
+    feature.type = feature.type || "Feature";
+    feature.properties = feature.properties || {};
+
+    // special parameter for circle features (unsupported by geoJSON)
+    if (layer instanceof L.Circle) {
+        feature.properties.radius = layer.getRadius();
+    }
+});
+
+// ************************************
+// GEOJSON PROCESSING & MAPPING
+// ************************************
+
+function importGeoJSON(objGeoJSON) {
+    // load the GeoJSON data onto the map
+    var ftrGroup = L.geoJSON(objGeoJSON, {
+        pointToLayer: (feature, latlng) => {
+            // hack to be able to render circle features (not supported by geoJSON)
+            if (feature.properties.radius) {
+                return new L.Circle(latlng, feature.properties.radius);
+            } else {
+                return new L.Marker(latlng);
+            }
+        },
         onEachFeature: function (feature, layer) {
             // style layer (if available)
             if (feature.properties.style) {
@@ -69,25 +128,23 @@ if(urlParams.has('gj')) {
     map.fitBounds(ftrGroup.getBounds().pad(0.2));
 }
 
-// add control to toggle toolbar buttons
-L.easyButton('fa-cog', function(btn, map){
-    map.pm.toggleControls();
-}).addTo(map);
+// compact geoJSON based on a predefined dictionary
+function compactGeoJSON(strJSON) {
+    var compactedString = strJSON;
+    geoJSONDict.forEach((pair) => {
+        compactedString = compactedString.replaceAll(pair[0], pair[1]);
+    });
+    return compactedString;
+}
 
-// add leaflet-geoman controls
-map.pm.addControls({  
-    position: 'topleft',  
-    drawCircleMarker: false,  
-});
-
-// event listener for after layers are created
-map.on('pm:create', e => {  
-    var layer = e.layer;
-    var feature = layer.feature = layer.feature || {};
-
-    feature.type = feature.type || "Feature";
-    feature.properties = feature.properties || {};
-});
+// expand geoJSON based on a predefined dictionary
+function expandGeoJSON(strJSON) {
+    var expandedString = strJSON;
+    geoJSONDict.forEach((pair) => {
+        expandedString = expandedString.replaceAll(pair[1], pair[0])
+    });
+    return expandedString;
+}
 
 // ************************************
 // EDIT & STYLE CONTROL
@@ -550,7 +607,7 @@ const exportActions = [
             var mapLayers = map.pm.getGeomanLayers(true).toGeoJSON();
             
             // encode and compress the URL
-            var encodedGJSON = JSONCrush(JSON.stringify(mapLayers));
+            var encodedGJSON = JSONCrush(compactGeoJSON(JSON.stringify(mapLayers)));
             
             // copy the encoded url into the clipboard
             const el = document.createElement('textarea');
@@ -574,11 +631,11 @@ const exportActions = [
             var mapLayers = map.pm.getGeomanLayers(true).toGeoJSON();
             
             // convert to string
-            var geojsonString = JSON.stringify(mapLayers);
+            var geoJSONString = JSON.stringify(mapLayers);
             
             // copy the geojson into the clipboard
             const el = document.createElement('textarea');
-            el.value = geojsonString;
+            el.value = geoJSONString;
             el.setAttribute('readonly', '');
             el.style.position = 'absolute';
             el.style.left = '-9999px';
@@ -656,39 +713,12 @@ function importData(){
     var objGeoJSON = JSON.parse(document.getElementById('geojson_data').value);
 
     // load the geojson data onto the map
-    var importGroup = L.geoJSON(objGeoJSON, {
-        onEachFeature: function (feature, layer) {
-            // style layer (if available)
-            if (feature.properties.style) {
-                layer.setStyle(feature.properties.style);
-            }
-
-            // create popup windows (if available)
-            var content = createPopupContent(layer);
-            if(content != '') { 
-                layer.bindPopup(content);
-            }
-            
-            // create tooltips (if required)
-            if (feature.properties.tooltip) {
-                layer.bindTooltip(feature.properties.title, {
-                    permanent: feature.properties.permanentTooltip,
-                    direction: 'top'
-                }).openTooltip();
-            }
-        }
-    }).addTo(map);
-
-    // if geometry was loaded, then fit map to bounds
-    map.fitBounds(map.pm.getGeomanLayers(true).getBounds().pad(0.2));
+    importGeoJSON(objGeoJSON);
 
     // close the modal window
     map.closeModal();
     map.pm.Toolbar.toggleButton('Import', false);
 }
-
-// function to compact geoJSON object
-
 
 // hide the map controls at startup if there is already content (passed through URL)
 map.pm.toggleControls();
