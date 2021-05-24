@@ -1,6 +1,5 @@
 // mapbox access token
-//const mboxToken = 'pk.eyJ1IjoiY2FubmliYWxmbGVhIiwiYSI6ImNrb2kxdTJ4YTBpczgyd3E0NTZ6dWFlNGUifQ.9bZYJMGVe5RAunckJmTeQg';
-const mboxToken = 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+const mboxToken = 'pk.eyJ1IjoiY2FubmliYWxmbGVhIiwiYSI6ImNrb2kxdTJ4YTBpczgyd3E0NTZ6dWFlNGUifQ.9bZYJMGVe5RAunckJmTeQg';
 
 // create map and set starting point for the map (Vancouver)
 var map = L.map('maparea', {
@@ -44,9 +43,6 @@ if(urlParams.has('gj')) {
 
     // load the geojson data onto the map
     var ftrGroup = L.geoJSON(objGeoJson, {
-        /*style: function (feature) {
-            //return {color: feature.properties.colour};
-        },*/
         onEachFeature: function (feature, layer) {
             // style layer (if available)
             if (feature.properties.style) {
@@ -84,31 +80,6 @@ map.pm.addControls({
     drawCircleMarker: false,  
 });
 
-// setup the popup window views based on the data properties passed in
-/*map.pm.getGeomanLayers(true).eachLayer( function (layer){
-    // add information popup
-    var layerData = layer.feature.properties.data;
-    if (layerData.length > 0) { 
-        var content = createPopupContent(layer,'view');
-        layer.bindPopup(content);
-    }
-
-    // get the tooltip information
-    var tooltipString = layer.feature.properties.tooltip;
-    var tooltipVisible = layer.feature.properties.tooltipVis;
-
-    // setup map tooltip options
-    var tooltipOpts = {
-        permanent: tooltipVisible,
-        direction: 'top'
-    };
-
-    // add tooltips (if set)
-    if (tooltipString && tooltipString != '') {
-        layer.bindTooltip(tooltipString, tooltipOpts).openTooltip();
-    }
-});*/
-
 // event listener for after layers are created
 map.on('pm:create', e => {  
     var layer = e.layer;
@@ -119,98 +90,15 @@ map.on('pm:create', e => {
 });
 
 // ************************************
-// URL ENCODING CONTROL
-// ************************************
-
-// add custom control to generate and copy encoded map url
-map.pm.Toolbar.createCustomControl({   
-    name: 'Create URL',  
-    block: 'custom', 
-    className: 'leaflet-pm-icon-url',
-    title: 'URL encode features',  
-    onClick: function () {
-        // get all the map features
-        var mapLayers = map.pm.getGeomanLayers(true).toGeoJSON();
-        
-        // encode and compress the URL
-        var encodedGJSON = JSONCrush(JSON.stringify(mapLayers));
-        
-        // copy the encoded url into the clipboard
-        const el = document.createElement('textarea');
-        el.value = baseURL + "?bm=" + basemapNum + "&gj=" + encodedGJSON;
-        el.setAttribute('readonly', '');
-        el.style.position = 'absolute';
-        el.style.left = '-9999px';
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand('copy');
-        document.body.removeChild(el);
-    }
-}); 
-
-// ************************************
-// BASEMAP CONTROL
-// ************************************
-
-// add custom control to choose basemap
-const bmapActions = [
-    { 
-        text: '<i class="fas fa-map-marked-alt leaflet-pm-cust-button"></i>',
-        onClick: () => { setBasemap(1) }
-    }, 
-    {
-        text: '<i class="fas fa-satellite leaflet-pm-cust-button"></i>',
-        onClick: () => { setBasemap(2) }
-    }
-];
-map.pm.Toolbar.createCustomControl({   
-    name: 'Change Basemap',  
-    block: 'custom', 
-    className: 'leaflet-pm-icon-basemap',
-    title: 'Change basemap',
-    actions: bmapActions
-}); 
-
-// function to set the basemap based on an id number
-function setBasemap(basemapID) {
-    if(basemapLayer){
-        map.removeLayer(basemapLayer);
-    }
-
-    switch(basemapID){
-        case 1:
-            var mapboxID = 'mapbox/streets-v11';
-            basemapNum = 1;
-            break;
-        case 2:
-            var mapboxID = 'mapbox/satellite-v9';
-            basemapNum = 2;
-            break;
-        default:
-            var mapboxID = 'mapbox/streets-v11';
-            basemapNum = 1;
-    }
-
-    basemapLayer = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        maxZoom: 22,
-        id: mapboxID,
-        tileSize: 512,
-        zoomOffset: -1,
-        accessToken: mboxToken
-    }).addTo(map)
-}
-
-// ************************************
 // EDIT & STYLE CONTROL
 // ************************************
 
 // add custom contorl to edit feature data and style
 map.pm.Toolbar.createCustomControl({   
-    name: 'Edit & Style',  
+    name: 'Style',  
     block: 'edit', 
     className: 'leaflet-pm-icon-pen',
-    title: 'Edit & style feature',
+    title: 'Edit & Style Feature',
     onClick: () => { },  
     afterClick: (e, obj) => {
         // get all the map features
@@ -591,47 +479,212 @@ function updateData(event) {
 }
 
 // ************************************
+// BASEMAP CONTROL
+// ************************************
+
+// add custom control to choose basemap
+const bmapActions = [
+    { 
+        text: '<i class="fas fa-map-marked-alt leaflet-pm-cust-button"></i>',
+        onClick: () => { 
+            setBasemap(1);
+            map.pm.Toolbar.toggleButton('Basemap', false);
+         }
+    }, 
+    {
+        text: '<i class="fas fa-satellite leaflet-pm-cust-button"></i>',
+        onClick: () => { 
+            setBasemap(2);
+            map.pm.Toolbar.toggleButton('Basemap', false);
+        }
+    }
+];
+map.pm.Toolbar.createCustomControl({   
+    name: 'Basemap',  
+    block: 'custom', 
+    className: 'leaflet-pm-icon-basemap',
+    title: 'Change Basemap',
+    actions: bmapActions
+}); 
+
+// function to set the basemap based on an id number
+function setBasemap(basemapID) {
+    if(basemapLayer){
+        map.removeLayer(basemapLayer);
+    }
+
+    switch(basemapID){
+        case 1:
+            var mapboxID = 'mapbox/streets-v11';
+            basemapNum = 1;
+            break;
+        case 2:
+            var mapboxID = 'mapbox/satellite-v9';
+            basemapNum = 2;
+            break;
+        default:
+            var mapboxID = 'mapbox/streets-v11';
+            basemapNum = 1;
+    }
+
+    basemapLayer = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 22,
+        id: mapboxID,
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: mboxToken
+    }).addTo(map)
+}
+
+// ************************************
+// DATA EXPORT CONTROL
+// ************************************
+
+// add custom control to generate and copy encoded map url
+const exportActions = [
+    { 
+        text: '<i class="fas fa-external-link-alt leaflet-pm-cust-button"></i>',
+        onClick: () => { 
+            // get all the map features
+            var mapLayers = map.pm.getGeomanLayers(true).toGeoJSON();
+            
+            // encode and compress the URL
+            var encodedGJSON = JSONCrush(JSON.stringify(mapLayers));
+            
+            // copy the encoded url into the clipboard
+            const el = document.createElement('textarea');
+            el.value = baseURL + "?bm=" + basemapNum + "&gj=" + encodedGJSON;
+            el.setAttribute('readonly', '');
+            el.style.position = 'absolute';
+            el.style.left = '-9999px';
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+
+            // toggle button off
+            map.pm.Toolbar.toggleButton('Export', false);
+        }
+    },
+    {
+        text: '<i class="fas fa-clipboard leaflet-pm-cust-button"></i>',
+        onClick: () => { 
+            // get all the map features
+            var mapLayers = map.pm.getGeomanLayers(true).toGeoJSON();
+            
+            // convert to string
+            var geojsonString = JSON.stringify(mapLayers);
+            
+            // copy the geojson into the clipboard
+            const el = document.createElement('textarea');
+            el.value = geojsonString;
+            el.setAttribute('readonly', '');
+            el.style.position = 'absolute';
+            el.style.left = '-9999px';
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+
+            // toggle button off
+            map.pm.Toolbar.toggleButton('Export', false);
+        }
+    },
+    {
+        text: '<i class="fas fa-download leaflet-pm-cust-button"></i>',
+        onClick: () => { 
+            // get all the map features
+            var mapLayers = map.pm.getGeomanLayers(true).toGeoJSON();
+            
+            // convert to string and prepare download file
+            var dataString = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(mapLayers));
+            var downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute('href', dataString);
+            downloadAnchorNode.setAttribute('download', 'map.json');
+            document.body.appendChild(downloadAnchorNode); // required for firefox
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+            
+            // toggle button off
+            map.pm.Toolbar.toggleButton('Export', false);
+        }
+    }
+];
+map.pm.Toolbar.createCustomControl({   
+    name: 'Export',  
+    block: 'custom', 
+    className: 'leaflet-pm-icon-export',
+    title: 'Export Data',
+    actions: exportActions
+}); 
+
+// ************************************
 // IMPORT DATA CONTROL
 // ************************************
 
 // add custom control to import GeoJSON file/text to add to map
+const importActions = [
+    { 
+        text: '<i class="fas fa-clipboard leaflet-pm-cust-button"></i>',
+        onClick: () => { 
+            var contentHTML = '<div class="popup-title">Import GeoJSON</div>';
+            contentHTML += '<textarea id="geojson_data" rows="15" cols="70" style="width: 100%;"></textarea><button type="button" onClick="importData()">Import</button>';
+            var importJSON = map.openModal({ 
+                content: contentHTML
+            });
+        }
+    }, 
+    {
+        text: '<i class="fas fa-upload leaflet-pm-cust-button"></i>',
+        onClick: () => { 
+            // TODO: see if there is a way to import files
+            map.pm.Toolbar.toggleButton('Import', false);
+        }
+    }
+];
 map.pm.Toolbar.createCustomControl({   
-    name: 'Import GeoJSON',  
+    name: 'Import',  
     block: 'custom', 
     className: 'leaflet-pm-icon-import',
-    title: 'Import GeoJSON',  
-    onClick: function () {
-        var contentHTML = '<div class="popup-title">Import GeoJSON</div>';
-        contentHTML += '<textarea id="geojson_data" rows="15" cols="70" style="width: 100%;"></textarea><button type="button" onClick="importData()">Import</button>';
-        var importJSON = map.openModal({ 
-            content: contentHTML
-        });
-        console.log(importJSON);
-
-        map.closeModal();
-    }
+    title: 'Import Data',
+    actions: importActions
 });
 
 function importData(){
     // get data to be added
-    var strGeoJSON = JSON.parse(document.querySelector('#geojson_data').value);
-    console.log(strGeoJSON);
+    var objGeoJSON = JSON.parse(document.getElementById('geojson_data').value);
 
-    /*
     // load the geojson data onto the map
-    var importGroup = L.geoJSON(objGeoJson, {
-        style: function (feature) {
-            //return {color: feature.properties.colour};
+    var importGroup = L.geoJSON(objGeoJSON, {
+        onEachFeature: function (feature, layer) {
+            // style layer (if available)
+            if (feature.properties.style) {
+                layer.setStyle(feature.properties.style);
+            }
+
+            // create popup windows (if available)
+            var content = createPopupContent(layer);
+            if(content != '') { 
+                layer.bindPopup(content);
+            }
+            
+            // create tooltips (if required)
+            if (feature.properties.tooltip) {
+                layer.bindTooltip(feature.properties.title, {
+                    permanent: feature.properties.permanentTooltip,
+                    direction: 'top'
+                }).openTooltip();
+            }
         }
     }).addTo(map);
 
     // if geometry was loaded, then fit map to bounds
-    //map.fitBounds(map.pm.getGeomanLayers(true).getBounds().pad(0.2));
+    map.fitBounds(map.pm.getGeomanLayers(true).getBounds().pad(0.2));
 
     // close the modal window
     map.closeModal();
-    */
-    return strGeoJSON;
+    map.pm.Toolbar.toggleButton('Import', false);
 }
 
 // function to compact geoJSON object
