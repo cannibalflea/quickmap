@@ -16,6 +16,22 @@
     background-image: url("data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgZm9jdXNhYmxlPSJmYWxzZSIgZGF0YS1wcmVmaXg9ImZhcyIgZGF0YS1pY29uPSJ0YWciIGNsYXNzPSJzdmctaW5saW5lLS1mYSBmYS10YWcgZmEtdy0xNiIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBmaWxsPSIjNUI1QjVCIiBkPSJNMCAyNTIuMTE4VjQ4QzAgMjEuNDkgMjEuNDkgMCA0OCAwaDIwNC4xMThhNDggNDggMCAwIDEgMzMuOTQxIDE0LjA1OWwyMTEuODgyIDIxMS44ODJjMTguNzQ1IDE4Ljc0NSAxOC43NDUgNDkuMTM3IDAgNjcuODgyTDI5My44MjMgNDk3Ljk0MWMtMTguNzQ1IDE4Ljc0NS00OS4xMzcgMTguNzQ1LTY3Ljg4MiAwTDE0LjA1OSAyODYuMDU5QTQ4IDQ4IDAgMCAxIDAgMjUyLjExOHpNMTEyIDY0Yy0yNi41MSAwLTQ4IDIxLjQ5LTQ4IDQ4czIxLjQ5IDQ4IDQ4IDQ4IDQ4LTIxLjQ5IDQ4LTQ4LTIxLjQ5LTQ4LTQ4LTQ4eiI+PC9wYXRoPjwvc3ZnPg==")
 }
 
+.leaflet-pm-toolbar .leaflet-pm-icon-import {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgZm9jdXNhYmxlPSJmYWxzZSIgZGF0YS1wcmVmaXg9ImZhcyIgZGF0YS1pY29uPSJmaWxlLWltcG9ydCIgY2xhc3M9InN2Zy1pbmxpbmUtLWZhIGZhLWZpbGUtaW1wb3J0IGZhLXctMTYiIHJvbGU9ImltZyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+PHBhdGggZmlsbD0iIzVCNUI1QiIgZD0iTTE2IDI4OGMtOC44IDAtMTYgNy4yLTE2IDE2djMyYzAgOC44IDcuMiAxNiAxNiAxNmgxMTJ2LTY0em00ODktMTgzTDQwNy4xIDdjLTQuNS00LjUtMTAuNi03LTE3LTdIMzg0djEyOGgxMjh2LTYuMWMwLTYuMy0yLjUtMTIuNC03LTE2Ljl6bS0xNTMgMzFWMEgxNTJjLTEzLjMgMC0yNCAxMC43LTI0IDI0djI2NGgxMjh2LTY1LjJjMC0xNC4zIDE3LjMtMjEuNCAyNy40LTExLjNMMzc5IDMwOGM2LjYgNi43IDYuNiAxNy40IDAgMjRsLTk1LjcgOTYuNGMtMTAuMSAxMC4xLTI3LjQgMy0yNy40LTExLjNWMzUySDEyOHYxMzZjMCAxMy4zIDEwLjcgMjQgMjQgMjRoMzM2YzEzLjMgMCAyNC0xMC43IDI0LTI0VjE2MEgzNzZjLTEzLjIgMC0yNC0xMC44LTI0LTI0eiI+PC9wYXRoPjwvc3ZnPg==")
+}
+
+.leaflet-pm-toolbar .leaflet-pm-icon-data {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgZm9jdXNhYmxlPSJmYWxzZSIgZGF0YS1wcmVmaXg9ImZhcyIgZGF0YS1pY29uPSJ0YWJsZSIgY2xhc3M9InN2Zy1pbmxpbmUtLWZhIGZhLXRhYmxlIGZhLXctMTYiIHJvbGU9ImltZyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+PHBhdGggZmlsbD0iIzVCNUI1QiIgZD0iTTQ2NCAzMkg0OEMyMS40OSAzMiAwIDUzLjQ5IDAgODB2MzUyYzAgMjYuNTEgMjEuNDkgNDggNDggNDhoNDE2YzI2LjUxIDAgNDgtMjEuNDkgNDgtNDhWODBjMC0yNi41MS0yMS40OS00OC00OC00OHpNMjI0IDQxNkg2NHYtOTZoMTYwdjk2em0wLTE2MEg2NHYtOTZoMTYwdjk2em0yMjQgMTYwSDI4OHYtOTZoMTYwdjk2em0wLTE2MEgyODh2LTk2aDE2MHY5NnoiPjwvcGF0aD48L3N2Zz4=")
+}
+
+.leaflet-pm-toolbar .leaflet-pm-icon-style {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgZm9jdXNhYmxlPSJmYWxzZSIgZGF0YS1wcmVmaXg9ImZhcyIgZGF0YS1pY29uPSJwYWludC1yb2xsZXIiIGNsYXNzPSJzdmctaW5saW5lLS1mYSBmYS1wYWludC1yb2xsZXIgZmEtdy0xNiIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBmaWxsPSIjNUI1QjVCIiBkPSJNNDE2IDEyOFYzMmMwLTE3LjY3LTE0LjMzLTMyLTMyLTMySDMyQzE0LjMzIDAgMCAxNC4zMyAwIDMydjk2YzAgMTcuNjcgMTQuMzMgMzIgMzIgMzJoMzUyYzE3LjY3IDAgMzItMTQuMzMgMzItMzJ6bTMyLTY0djEyOGMwIDE3LjY3LTE0LjMzIDMyLTMyIDMySDI1NmMtMzUuMzUgMC02NCAyOC42NS02NCA2NHYzMmMtMTcuNjcgMC0zMiAxNC4zMy0zMiAzMnYxMjhjMCAxNy42NyAxNC4zMyAzMiAzMiAzMmg2NGMxNy42NyAwIDMyLTE0LjMzIDMyLTMyVjM1MmMwLTE3LjY3LTE0LjMzLTMyLTMyLTMydi0zMmgxNjBjNTMuMDIgMCA5Ni00Mi45OCA5Ni05NnYtNjRjMC0zNS4zNS0yOC42NS02NC02NC02NHoiPjwvcGF0aD48L3N2Zz4=")
+}
+
+.leaflet-pm-toolbar .leaflet-pm-icon-pen {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgZm9jdXNhYmxlPSJmYWxzZSIgZGF0YS1wcmVmaXg9ImZhcyIgZGF0YS1pY29uPSJwZW4iIGNsYXNzPSJzdmctaW5saW5lLS1mYSBmYS1wZW4gZmEtdy0xNiIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBmaWxsPSIjNUI1QjVCIiBkPSJNMjkwLjc0IDkzLjI0bDEyOC4wMiAxMjguMDItMjc3Ljk5IDI3Ny45OS0xMTQuMTQgMTIuNkMxMS4zNSA1MTMuNTQtMS41NiA1MDAuNjIuMTQgNDg1LjM0bDEyLjctMTE0LjIyIDI3Ny45LTI3Ny44OHptMjA3LjItMTkuMDZsLTYwLjExLTYwLjExYy0xOC43NS0xOC43NS00OS4xNi0xOC43NS02Ny45MSAwbC01Ni41NSA1Ni41NSAxMjguMDIgMTI4LjAyIDU2LjU1LTU2LjU1YzE4Ljc1LTE4Ljc2IDE4Ljc1LTQ5LjE2IDAtNjcuOTF6Ij48L3BhdGg+PC9zdmc+")
+}
+
 .fa-cog {
     font-size: 16px;
     padding-top: 6px;
@@ -26,55 +42,243 @@
     padding-top: 6px;
 }
 
-.popup-button{
-    font-size: 30px;
-    color: royalblue;
+.popup-title {
+    font-size: 15px;
+    font-weight: bold;
+    padding-bottom: 5px;
+    min-width: 270px;
 }
 
-.popup-row-button{
+.popup-description {
+    font-size: 15px;
+    font-weight: normal;
+    padding-bottom: 5px;
+    min-width: 270px;
+}
+
+.popup-line {
+    height: 2px;
+    background: #757575;
+    width: 100%;
+    box-sizing: border-box;
+    background-origin: border-box;
+    margin: 10px 0px 5px;
+}
+
+.popup-data-title {
+    font-size: 13px;
+    color: #757575;
+    font-weight: bold;
+    padding-bottom: 5px;
+    min-width: 270px;
+}
+
+.popup-view-table {
+    width: 100%;
+    font-size: 13px;
+}
+
+.popup-view-table tr {
+    vertical-align: top;
+    box-sizing: border-box;
+}
+
+.popup-view-table tr:nth-child(odd) {
+    background-color: rgb(233, 233, 233);
+}
+
+.popup-view-table tr td {
+    padding-left: 5px;
+}
+
+.popup-view-table-keys {
+    width: 1%;
+    white-space: nowrap;
+    padding-right: 15px;
+}
+
+.popup-edit-table {
+    width: 100%;
+    table-layout: fixed;
+    padding: 0px;
+    font-size: 15px;
+}
+
+.popup-edit-table tr {
+    vertical-align: middle;
+    box-sizing: border-box;
+    height: 20px;
+    white-space: nowrap;
+}
+
+.popup-edit-table tr td {
+    box-sizing: border-box;
+}
+
+.popup-edit-button-column {
+    width: 18px;
+    white-space: nowrap;
+}
+
+.popup-edit-button-add {
     font-size: 22px;
-    vertical-align:middle;
+    vertical-align: middle;
+    color: green;
 }
 
-.popup-data-row{
-    vertical-align:middle;
-    height: 30px;
+.popup-edit-button-delete {
+    font-size: 22px;
+    vertical-align: middle;
+    color: red;
 }
 
-.popup-data-cell{
+.popup-edit-colour {
+    width: 50px;
 }
 
-.popup-data-table{
-    width: 100%;
+.popup-edit-number {
+    width: 50px;
 }
 
-input {
-    width: 100%;
+.popup-edit-text {
+    width: 100%; 
+    box-sizing: border-box;
 }
 
-.popup-data-row-view{
+.popup-data-row-view {
     display: table-row;
     vertical-align: middle;
     line-height: 22px;
     height: 22px;
 }
 
-.popup-data-cell-view{
+.popup-data-cell-view {
     display: table-cell;
     padding-left: 10px;
 }
 
-.popup-data-row-highlight{
+.popup-data-row-highlight {
     background-color:lightgrey;
 }
 
-.popup-title{
-    font-size: 15px;
-    font-weight: bold;
-    padding-bottom: 5px;
-    width: 250px;
+.popup-row {
+    padding-top: 10px;
+    vertical-align: middle;
+    height: 20px;
 }
 
-.popup-title-button{
-    margin-left: 10px;
+.tab-container {
+    width: 300px;
+    box-sizing: border-box;
 }
+
+.tab-container .tab-button {
+    display: none;
+}
+
+.tab-container .tab-button:checked + label {
+    background: #eee;
+}
+
+.tab-container .tab-button#tab1:checked ~ .line {
+    left: 0%;
+}
+
+.tab-container .tab-button#tab1:checked ~ .content-container #c1 {
+    display: block;
+}
+
+.tab-container .tab-button#tab2:checked ~ .line {
+    left: 33.33%;
+}
+
+.tab-container .tab-button#tab2:checked ~ .content-container #c2 {
+    display: block;
+}
+
+.tab-container .tab-button#tab3:checked ~ .line {
+    left: 66.66%;
+}
+
+.tab-container .tab-button#tab3:checked ~ .content-container #c3 {
+    display: block;
+}
+
+.tab-container .tab-label {
+    display: inline-block;
+    font-size: 16px;
+    height: 36px;
+    line-height: 36px;
+    width: 33.33%;
+    text-align: center;
+    background: #f4f4f4;
+    color: #555;
+    position: relative;
+    transition: 0.25s background ease;
+    cursor: pointer;
+}
+
+.tab-container .tab-label::after {
+    content: "";
+    height: 2px;
+    width: 100%;
+    position: absolute;
+    display: block;
+    background: #ccc;
+    bottom: 0;
+    opacity: 0;
+    left: 0;
+    transition: 0.25s ease;
+}
+
+.tab-container .tab-label:hover::after {
+    opacity: 1;
+}
+
+.tab-container .line {
+    position: relative;
+    height: 2px;
+    background: #1E88E5;
+    width: 33.33%;
+    box-sizing: border-box;
+    background-origin: border-box;
+    transition: 0.25s ease;
+}
+
+.tab-container .content-container {
+    background: #eee;
+    position: relative;
+    font-size: 16px;
+    box-sizing: border-box;
+    height: 240px;
+}
+
+.tab-container .content-container .content {
+    position: absolute;
+    padding: 10px;
+    width: 100%;
+    top: 0;
+    display: none;
+    transition: 0.25s ease;
+    color: #333;
+    box-sizing: border-box;
+}
+
+/*.tab-container .content-container .content h3 {
+    font-weight: 200;
+    margin: 10px 0;
+}
+
+.tab-container .content-container .content p {
+    margin: 10px 0;
+}
+
+
+.tab-container .content-container .content input {
+    margin: 10px 0;
+}
+
+
+.tab-container .content-container .content p, .tab-container .content-container .content i {
+    font-size: 13px;
+}*/
