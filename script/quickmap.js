@@ -721,7 +721,6 @@ function importData(){
 }
 
 // hide the map controls at startup if there is already content (passed through URL)
-map.pm.toggleControls();
 if(urlParams.has('gj')) {
     map.pm.toggleControls();
 }
